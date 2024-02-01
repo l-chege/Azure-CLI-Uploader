@@ -3,15 +3,15 @@
 # Check the number of arguments provided
 if [[ $# -eq 0 ]]; then
     echo '[X] No arguments provided'
-    echo '[!] Usage: ./cloudloader <container-name> <file-name1>'
+    echo '[!] Usage: ./cloudcliloader <container-name> <file-name1>'
     exit 1
 elif [[ $# -eq 1 ]]; then
     echo '[X] Too few arguments provided!'
-    echo '[!] Usage: ./cloudloader <container-name> <file-name1>'
+    echo '[!] Usage: ./cloudcliloader <container-name> <file-name1>'
     exit 1
 elif [[ $# -ge 3 ]]; then
     echo '[X] Too many arguments provided!'
-    echo '[!] Usage: ./cloudloader <container-name> <file-name1>'
+    echo '[!] Usage: ./cloudcliloader <container-name> <file-name1>'
     exit 1
 elif [[ ! -f $2 ]]; then
     echo '[X] File does not exist!'
