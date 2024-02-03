@@ -37,7 +37,12 @@ Follow these steps to install and use Cloud CLI Uploader:
    cd CLI-Uploader
 3. Run the installation script
    ```bash
-   ./install.sh
+   ./installscript.sh
 4. After installation, use the following command to upload files
+- Upload a file
    ```bash
-   ./uploader.sh upload /path/to/files azure-container
+   ./cliscript.sh <azure container> /path/to/file
+
+- Upload multiple files
+   ```bash
+   ./cliscript.sh <azure container> /path/to/file1 /path/to/file2 ...
