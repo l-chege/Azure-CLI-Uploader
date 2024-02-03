@@ -1,6 +1,6 @@
-# Azure CLI Uploader
+# Cloud CLI Uploader
 
-This capstone project is an integral part of the [Learn to Cloud](https://learntocloud.guide/) guide. The project aligns with the learning objectives outlined in the guide, providing hands-on experience with cloud technologies, focusing on Microsoft Azure.
+This capstone project is an integral part of the [Learn to Cloud](https://learntocloud.guide/) guide. The project aligns with the learning objectives outlined in the guide, providing hands-on experience with cloud technologies (My focus is on Microsoft Azure.)
 
 ## Features
 
@@ -18,7 +18,7 @@ This capstone project is an integral part of the [Learn to Cloud](https://learnt
 
 ## Prerequisites and Setup
 
-Before using Azure CLI Uploader, ensure you have the following:
+Before using Cloud CLI Uploader, ensure you have the following:
 
 - A chosen cloud provider (Microsoft Azure is used in this project).
 - An active Azure subscription.
@@ -27,14 +27,14 @@ Before using Azure CLI Uploader, ensure you have the following:
 
 ## Installation and Usage
 
-Follow these steps to install and use Azure CLI Uploader:
+Follow these steps to install and use Cloud CLI Uploader:
 
 1. Clone the repository to your local machine.
    ```bash
-   git clone https://github.com/your-username/Azure-CLI-Uploader.git
+   git clone https://github.com/your-username/CLI-Uploader.git
 2. Navigate to project directory
    ```bash
-   cd Azure-CLI-Uploader
+   cd CLI-Uploader
 3. Run the installation script
    ```bash
    ./install.sh
