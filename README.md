@@ -1,7 +1,6 @@
 # Azure CLI Uploader
 
-- Azure CLI Uploader is a bash-based command-line tool designed for a seamless file upload experience to Microsoft Azure Blob storage. This tool simplifies the upload process, allowing users to easily authenticate with Azure and upload files directly to a specified container. 
-- This capstone project is an integral part of the [Learn to Cloud](https://learntocloud.guide/) guide. The project aligns with the learning objectives outlined in the guide, providing hands-on experience with cloud technologies, specifically focusing on Microsoft Azure.
+This capstone project is an integral part of the [Learn to Cloud](https://learntocloud.guide/) guide. The project aligns with the learning objectives outlined in the guide, providing hands-on experience with cloud technologies, focusing on Microsoft Azure.
 
 ## Features
 
