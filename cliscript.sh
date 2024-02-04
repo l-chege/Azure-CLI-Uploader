@@ -23,7 +23,8 @@ upload_to_azure() {
         --name "$blob_name" \
         --type block \
         --auth-mode login \
-        --file "$file_path" || { echo "File upload failed"; exit 1; }
+        --file "$file_path" || { 
+            echo "File upload failed"; exit 1; }
 
     # Display success message
     echo "File successfully uploaded"
@@ -68,7 +69,10 @@ container_name=$1
 file_name=$2    
 
 # Check if the file with the same name already exists in the Azure Blob Storage container
-az storage blob exists --container-name "$container_name" --name "$file_name" --auth-mode login | grep -q "true" && {
+az storage blob exists 
+    --container-name "$container_name" 
+    --name "$file_name" 
+    --auth-mode login | grep -q "true" && {
     echo "[!] File with the same name already exists in container '$container_name'!"; exit 1; }
 
 # Upload the file to Azure Blob Storage and display blob list
