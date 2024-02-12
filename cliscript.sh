@@ -1,82 +1,79 @@
-#It's a shell script that uploads a file to Azure Blob Storage and generates a shareable link. 
-#It checks for the correct number of arguments and whether the file exists before proceeding. 
-#It also checks if a file with the same name already exists in the Azure Blob Storage container. 
+#It's a shell script that uploads a file to Azure Blob Storage and generates a shareable link.  
+#It checks if a file with the same name already exists in the Azure Blob Storage container. 
 #If all checks pass, it uploads the file and lists all blobs in the container.
 
 #!/bin/bash
 
 #function to upload file to azure blob storage
 upload_to_azure() {
-    local container_name=$1
-    local file_path=$2
-
-    # Extracting storage account name from container name (assuming format: "<storage-account-name>/<container-name>")
-    local storage_account=$(echo "$container_name" | cut -d'/' -f1)
+    local file_path=$1
+    local container_name=mycontainer
+    local blob_name=$(basename "$file_path")
+    local storage_account=myaccount
 
     echo "Uploading file to Azure Blob Storage..."
 
-    # Upload the file to Azure Blob Storage
-    local blob_name=$(basename "$file_path")
-    az storage blob upload \
+    #check standard error output $ upload file
+    error_message=$(az storage blob upload \
         --account-name "$storage_account" \
         --container-name "$container_name" \
+        --file "$file_path" \
         --name "$blob_name" \
-        --type block \
-        --auth-mode login \
-        --file "$file_path" || { 
-            echo "File upload failed"; exit 1; }
+        --auth-mode login 2>&1 >/dev/null) 
 
-    # Display success message
-    echo "File successfully uploaded"
-
-    #prompt user to generate a shareable link
-    read -r  -p "Do you want to generate a shareable link for the file? [yes/no]: " generate_link
+    if [ $? -ne 0 ]; then
+        echo "Failed to upload file to Azure Blob Storage"
+        echo "Error: $error_message"
+    else
+        echo "File successfully uploaded"
+        echo -n "Do you want to generate a shareable link for the file? [yes/no]: "
+        read generate_link
 
     #generate and display shareable link if requested
-   if [[ "$generate_link" == "yes" ]]; then
+        if [[ "$generate_link" == "yes" ]]; then
         shareable_link=$(generate_sas_url "$storage_account" "$container_name" "$blob_name")
         echo "Shareable Link: $shareable_link"
     fi
+fi
 }
-#function to generate a shareable link
+
+#function to generate a read-only SAS token for blob storage
 generate_sas_url() {
     local storage_account=$1
     local container_name=$2
     local blob_name=$3
 
-    #generate sas token for the blob
     local sas_token=$(az storage blob generate-sas \
-     --account-name "$storage_account" \
-     --container-name "$container_name" \
-     --name "$blob_name" \
-     --permissions r \
-     --expiry $(date -u -d "1 hour" '+%Y-%m-%dT%H:%MZ') \
-     --output tsv 2>&1 || { 
-        echo "Failed to generate SAS token for $blob_name"; exit 1; })
+         --account-name "$storage_account" \
+         --container-name "$container_name" \
+         --name "$blob_name" \
+         --permissions r \
+         --expiry $(date -u -d "1 day" '+%Y-%m-%dT%H:%MZ') \
+         --auth-mode login \
+         --as-user \
+         --output tsv 2>&1)
+         
 
+    if [ -z "$sas_token" ]|| [[ $sas_token == *"ERROR"* ]]; then
+        echo "Failed to generate SAS token for $blob_name.Error: $sas_token"
+        return 1
+    fi
+              
     #display shareable link
     local shareable_link="https://${storage_account}.blob.core.windows.net/${container_name}/${blob_name}?${sas_token}"
     echo "Shareable Link: $shareable_link"
 }
 
-#main script logic
-# Check if correct number of arguments is provided and the file exists
-[[ $# -eq 2 && -f $2 ]] || { 
-    echo '[X] Incorrect number of arguments or file does not exist'; 
-    echo '[!] Usage: ./cliscript <container-name> <file-name1>'; exit 1; }
-
-container_name=$1
-file_name=$2    
-
-# Check if the file with the same name already exists in the Azure Blob Storage container
+# check if the file with the same name already exists in the Azure Blob Storage container
 az storage blob exists \
     --container-name "$container_name" \
-    --name "$file_name" \
+    --name "$blob_name" \
     --auth-mode login | grep -q "true" && {
+
     echo "[!] File with the same name already exists in container '$container_name'!"; exit 1; }
 
-# Upload the file to Azure Blob Storage and display blob list
-upload_to_azure "$container_name" "$file_name"
+# upload the file to Azure Blob Storage and display blob list
+upload_to_azure "$container_name" "$blob_name"
 echo '[+] Blobs in the container:'
 az storage blob list --container-name "$container_name" --output table --auth-mode login
 
