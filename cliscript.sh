@@ -7,11 +7,21 @@
 #function to upload file to azure blob storage
 upload_to_azure() {
     local file_path=$1
-    local container_name=mycontainer
+    local container_name=$2
     local blob_name=$(basename "$file_path")
     local storage_account=myaccount
 
     echo "Uploading file to Azure Blob Storage..."
+
+# check if the file with the same name already exists in the Azure Blob Storage container
+az storage blob exists \
+    --account-name "$storage_account" \
+    --container-name "$container_name" \
+    --name "$blob_name" \
+    --auth-mode login | grep -q "true" && {
+
+    echo "[!] File with the same name already exists in container '$container_name'!"; exit 1; }
+
 
     #check standard error output $ upload file
     error_message=$(az storage blob upload \
@@ -64,13 +74,17 @@ generate_sas_url() {
     echo "Shareable Link: $shareable_link"
 }
 
-# check if the file with the same name already exists in the Azure Blob Storage container
-az storage blob exists \
-    --container-name "$container_name" \
-    --name "$blob_name" \
-    --auth-mode login | grep -q "true" && {
+# Check if correct number of arguments is provided
+if [[ $# -ne 2 ]]; then
+    echo '[X] Incorrect number of arguments provided'
+    echo '[!] Usage: ./cliscript <container-name> <file-name1>'
+    exit 1
+fi
 
-    echo "[!] File with the same name already exists in container '$container_name'!"; exit 1; }
+# Assign command line arguments to variables for better readability
+container_name=$1
+file_name=$2
+
 
 # upload the file to Azure Blob Storage and display blob list
 upload_to_azure "$container_name" "$blob_name"
