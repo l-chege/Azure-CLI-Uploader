@@ -74,18 +74,6 @@ generate_sas_url() {
     echo "Shareable Link: $shareable_link"
 }
 
-# Check if correct number of arguments is provided
-if [[ $# -ne 2 ]]; then
-    echo '[X] Incorrect number of arguments provided'
-    echo '[!] Usage: ./cliscript <container-name> <file-name1>'
-    exit 1
-fi
-
-# Assign command line arguments to variables for better readability
-container_name=$1
-file_name=$2
-
-
 # upload the file to Azure Blob Storage and display blob list
 upload_to_azure "$container_name" "$blob_name"
 echo '[+] Blobs in the container:'
