@@ -1,9 +1,3 @@
-#It's a shell script that uploads a file to Azure Blob Storage and generates a shareable link.  
-#It checks if a file with the same name already exists in the Azure Blob Storage container. 
-#If all checks pass, it uploads the file and lists all blobs in the container.
-
-#!/bin/bash
-
 #function to upload file to azure blob storage
 upload_to_azure() {
     local file_path=$1
@@ -81,4 +75,3 @@ az storage blob list --container-name "$container_name" --output table --auth-mo
 
 #exit/end script
 exit 0
-
