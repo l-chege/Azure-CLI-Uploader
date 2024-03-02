@@ -1,19 +1,16 @@
 # Cloud CLI Uploader
 
-This capstone project is an integral part of the [Learn to Cloud](https://learntocloud.guide/) guide. The project aligns with the learning objectives outlined in the guide, providing hands-on experience with cloud technologies (My focus is on Microsoft Azure.)
+This capstone project is an integral part of the [Learn to Cloud](https://learntocloud.guide/) guide. The project aligns with the learning objectives outlined in the guide, providing hands-on experience with cloud technologies. 
 
 ## Features
 
-1. **Easy Authentication:**
-   - Quickly authenticate with Microsoft Azure for seamless access.
-
-2. **Direct File Upload:**
+1. **Direct File Upload:**
    - Upload multiple files directly to Azure Blob storage containers.
 
-3. **Generate Shareable Links:**
+2. **Generate Shareable Links:**
    - Easily generate links for uploaded files, making sharing a breeze.
 
-4. **Simple Installation:**
+3. **Simple Installation:**
    - Follow the straightforward installation process to get started.
 
 ## Prerequisites and Setup
