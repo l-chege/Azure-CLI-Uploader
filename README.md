@@ -22,6 +22,8 @@ Before using Cloud CLI Uploader, ensure you have the following:
 - Azure CLI tool installed and authenticated.
 - A Bash environment available on Linux/Unix, WSL (Windows Subsystem for Linux), or macOS.
 
+Setup your Azure resources - checkout the [documentation](https://github.com/l-chege/CLI-Uploader/tree/master/azuresetup) I wrote giving a detailed step by step guide. 
+
 ## Installation and Usage
 
 Follow these steps to install and use Cloud CLI Uploader:
